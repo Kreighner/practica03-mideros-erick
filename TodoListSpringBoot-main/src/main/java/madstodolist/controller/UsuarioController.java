@@ -21,5 +21,16 @@ public class UsuarioController {
         model.addAttribute("usuarios", usuarios);
         return "usuarios";
     }
+
+    @GetMapping("/usuarios/{id}")
+    public String detalleUsuario(@PathVariable Long id, Model model) {
+        Usuario usuario = usuarioService.getUsuarioById(id);
+        if (usuario == null) {
+            return "redirect:/usuarios"; // Redirige si el usuario no existe
+        }
+        model.addAttribute("usuario", usuario);
+        return "usuarioDescripcion";
+    }
+
 }
 
