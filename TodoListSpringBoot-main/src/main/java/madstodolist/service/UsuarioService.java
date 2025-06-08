@@ -82,4 +82,9 @@ public class UsuarioService {
         return StreamSupport.stream(iterable.spliterator(), false)
                 .collect(Collectors.toList());
     }
+
+    @Transactional(readOnly = true)
+    public Usuario getUsuarioById(Long usuarioId) {
+        return usuarioRepository.findById(usuarioId).orElse(null);
+    }
 }
