@@ -29,6 +29,13 @@
     </table>
 </div>
 
+<th>Acciones</th>
+<td>
+    <a th:href="@{/usuarios/{id}/editar(id=${usuario.id})}" th:text="'Editar'"></a>
+    <a th:href="@{/usuarios/{id}/eliminar(id=${usuario.id})}" th:text="'Eliminar'" th:if="${usuario.rol == 'ADMIN'}"></a>
+</td>
+
 <div th:replace="fragments::javascript"></div>
+
 </body>
 </html>

@@ -1,5 +1,7 @@
 package madstodolist.dto;
 
+import madstodolist.model.Rol;
+
 import java.util.Date;
 import java.util.Objects;
 
@@ -11,6 +13,7 @@ public class UsuarioData {
     private String nombre;
     private String password;
     private Date fechaNacimiento;
+    private Rol rol;
 
     // Getters y setters
 
@@ -48,6 +51,14 @@ public class UsuarioData {
 
     public void setFechaNacimiento(Date fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
+    }
+
+    public Rol getRol() {
+        return rol;
+    }
+
+    public void setRol(Rol rol) {
+        this.rol = rol;
     }
 
     // Sobreescribimos equals y hashCode para que dos usuarios sean iguales
