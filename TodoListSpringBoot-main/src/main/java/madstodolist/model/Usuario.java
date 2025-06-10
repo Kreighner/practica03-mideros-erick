@@ -25,6 +25,9 @@ public class Usuario implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date fechaNacimiento;
 
+    @Enumerated(EnumType.STRING)
+    private Rol rol;  // Aquí se agrega el campo rol
+
     // La relación es lazy por defecto,
     // es necesario acceder a la lista de tareas para que se carguen
     @OneToMany(mappedBy = "usuario")
@@ -79,6 +82,14 @@ public class Usuario implements Serializable {
 
     public void setFechaNacimiento(Date fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
+    }
+
+    public Rol getRol() {
+        return rol;
+    }
+
+    public void setRol(Rol rol) {
+        this.rol = rol;
     }
 
     // Getters y setters de la relación

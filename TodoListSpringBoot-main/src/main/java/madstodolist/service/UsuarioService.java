@@ -1,6 +1,7 @@
 package madstodolist.service;
 
 import madstodolist.dto.UsuarioData;
+import madstodolist.model.Rol;
 import madstodolist.model.Usuario;
 import madstodolist.repository.UsuarioRepository;
 import org.modelmapper.ModelMapper;
@@ -86,5 +87,22 @@ public class UsuarioService {
     @Transactional(readOnly = true)
     public Usuario getUsuarioById(Long usuarioId) {
         return usuarioRepository.findById(usuarioId).orElse(null);
+    }
+
+    @Transactional
+    public Usuario registrar(Usuario usuario) {
+        // Validar que el correo no esté registrado
+        Optional<Usuario> existingUser = usuarioRepository.findByEmail(usuario.getEmail());
+        if (existingUser.isPresent()) {
+            throw new UsuarioServiceException("El usuario con el correo " + usuario.getEmail() + " ya está registrado.");
+        }
+
+        // Si no se proporciona rol, asignar el rol por defecto
+        if (usuario.getRol() == null) {
+            usuario.setRol(Rol.USER);  // Valor por defecto si no se selecciona rol
+        }
+
+        // Guardar el usuario en la base de datos
+        return usuarioRepository.save(usuario);
     }
 }

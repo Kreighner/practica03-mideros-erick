@@ -4,6 +4,7 @@ import madstodolist.authentication.ManagerUserSession;
 import madstodolist.dto.LoginData;
 import madstodolist.dto.RegistroData;
 import madstodolist.dto.UsuarioData;
+import madstodolist.model.Rol;
 import madstodolist.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -76,6 +77,11 @@ public class LoginController {
             model.addAttribute("error", "El usuario " + registroData.getEmail() + " ya existe");
             return "formRegistro";
         }
+
+       // Verifica que el rol se está asignando correctamente
+       if (registroData.getRol() == null) {
+           registroData.setRol(Rol.USER); // Asignar rol por defecto si no se selecciona
+       }
 
         UsuarioData usuario = new UsuarioData();
         usuario.setEmail(registroData.getEmail());

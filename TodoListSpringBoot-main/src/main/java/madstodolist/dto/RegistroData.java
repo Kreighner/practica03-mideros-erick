@@ -1,5 +1,6 @@
 package madstodolist.dto;
 
+import madstodolist.model.Rol;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.Email;
@@ -11,8 +12,10 @@ public class RegistroData {
     private String eMail;
     private String password;
     private String nombre;
+    private Rol rol;
     @DateTimeFormat(pattern = "dd-MM-yyyy")
     private Date fechaNacimiento;
+
 
     public String getEmail() {
         return eMail;
@@ -44,5 +47,13 @@ public class RegistroData {
 
     public void setFechaNacimiento(Date fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
+    }
+
+    public Rol getRol() {
+        return rol;
+    }
+
+    public void setRol(Rol rol) {
+        this.rol = rol;
     }
 }
