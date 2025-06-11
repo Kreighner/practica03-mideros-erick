@@ -3,6 +3,7 @@ package madstodolist.controller;
 import madstodolist.authentication.ManagerUserSession;
 import madstodolist.dto.TareaData;
 import madstodolist.dto.UsuarioData;
+import madstodolist.model.Rol;
 import madstodolist.service.TareaService;
 import madstodolist.service.UsuarioService;
 import org.junit.jupiter.api.Test;
@@ -48,6 +49,7 @@ public class TareaWebTest {
         UsuarioData usuario = new UsuarioData();
         usuario.setEmail("user@ua");
         usuario.setPassword("123");
+        usuario.setRol(Rol.USER);  // Especifica el rol del usuario
         usuario = usuarioService.registrar(usuario);
 
         // Y añadimos dos tareas asociadas a ese usuario

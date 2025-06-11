@@ -1,6 +1,7 @@
 package madstodolist.dto;
 
 import madstodolist.model.Rol;
+import madstodolist.model.Usuario;
 
 import java.util.Date;
 import java.util.Objects;
@@ -14,6 +15,19 @@ public class UsuarioData {
     private String password;
     private Date fechaNacimiento;
     private Rol rol;
+
+    // Constructor sin parámetros
+    public UsuarioData() {
+        // No es necesario hacer nada aquí, los valores se asignarán en el test
+    }
+
+    // Constructor que acepta un objeto Usuario
+    public UsuarioData(Usuario usuario) {
+        this.id = usuario.getId();
+        this.nombre = usuario.getNombre();
+        this.email = usuario.getEmail();
+        this.rol = usuario.getRol();
+    }
 
     // Getters y setters
 

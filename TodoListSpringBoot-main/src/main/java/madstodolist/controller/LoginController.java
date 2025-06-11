@@ -5,6 +5,7 @@ import madstodolist.dto.LoginData;
 import madstodolist.dto.RegistroData;
 import madstodolist.dto.UsuarioData;
 import madstodolist.model.Rol;
+import madstodolist.model.Usuario;
 import madstodolist.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -46,9 +47,18 @@ public class LoginController {
         if (loginStatus == UsuarioService.LoginStatus.LOGIN_OK) {
             UsuarioData usuario = usuarioService.findByEmail(loginData.geteMail());
 
-            managerUserSession.logearUsuario(usuario.getId());
+            managerUserSession.logearUsuario(usuario.getId(), usuario.getRol());
 
-            return "redirect:/usuarios/" + usuario.getId() + "/tareas";
+            // Redirigimos según el rol
+            if (usuario.getRol() == Rol.ADMIN) {
+                return "redirect:/usuarios/" + usuario.getId() + "/tareas";
+                //return "redirect:/usuarios"; // Página para administradores
+            } else {
+                //return "redirect:/home"; // Página para usuarios normales
+                return "redirect:/usuarios/" + usuario.getId() + "/tareas";
+            }
+
+            //return "redirect:/usuarios/" + usuario.getId() + "/tareas";
         } else if (loginStatus == UsuarioService.LoginStatus.USER_NOT_FOUND) {
             model.addAttribute("error", "No existe usuario");
             return "formLogin";
@@ -83,11 +93,12 @@ public class LoginController {
            registroData.setRol(Rol.USER); // Asignar rol por defecto si no se selecciona
        }
 
-        UsuarioData usuario = new UsuarioData();
+        Usuario usuario = new Usuario();
         usuario.setEmail(registroData.getEmail());
         usuario.setPassword(registroData.getPassword());
         usuario.setFechaNacimiento(registroData.getFechaNacimiento());
         usuario.setNombre(registroData.getNombre());
+        usuario.setRol(registroData.getRol());
 
         usuarioService.registrar(usuario);
         return "redirect:/login";
