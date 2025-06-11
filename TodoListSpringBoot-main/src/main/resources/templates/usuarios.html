@@ -14,6 +14,7 @@
             <th>Nombre</th>
             <th>Correo</th>
             <th>Fecha de Nacimiento</th>
+            <th>Acciones</th>
         </tr>
         </thead>
         <tbody>
@@ -24,16 +25,22 @@
             </td>
             <td th:text="${usuario.email}"></td>
             <td th:text="${usuario.fechaNacimiento}"></td>
+
+            <!-- Solo mostramos las acciones de editar y eliminar si el rol es ADMIN -->
+            <td>
+                <a th:href="@{/usuarios/{id}/editar(id=${usuario.id})}" th:text="'Editar'"></a>
+                <a th:href="@{/usuarios/{id}/eliminar(id=${usuario.id})}" th:text="'Eliminar'" th:if="${usuario.rol == 'ADMIN'}"></a>
+            </td>
+
         </tr>
         </tbody>
     </table>
 </div>
 
-<th>Acciones</th>
-<td>
-    <a th:href="@{/usuarios/{id}/editar(id=${usuario.id})}" th:text="'Editar'"></a>
-    <a th:href="@{/usuarios/{id}/eliminar(id=${usuario.id})}" th:text="'Eliminar'" th:if="${usuario.rol == 'ADMIN'}"></a>
-</td>
+<div th:if="${session.rolUsuarioLogeado != 'ADMIN'}">
+    <p>Solo los administradores pueden acceder a esta sección.</p>
+</div>
+</div>
 
 <div th:replace="fragments::javascript"></div>
 

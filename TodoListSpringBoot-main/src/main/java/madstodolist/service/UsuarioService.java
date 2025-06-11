@@ -105,4 +105,14 @@ public class UsuarioService {
         // Guardar el usuario en la base de datos
         return usuarioRepository.save(usuario);
     }
+
+    @Transactional
+    public void actualizarUsuario(Usuario usuario) {
+        usuarioRepository.save(usuario);  // Guarda o actualiza el usuario en la base de datos
+    }
+
+    @Transactional
+    public void eliminarUsuario(Long id) {
+        usuarioRepository.deleteById(id);  // Elimina el usuario de la base de datos
+    }
 }

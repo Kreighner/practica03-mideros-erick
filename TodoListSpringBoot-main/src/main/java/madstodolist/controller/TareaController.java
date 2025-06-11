@@ -5,6 +5,8 @@ import madstodolist.controller.exception.UsuarioNoLogeadoException;
 import madstodolist.controller.exception.TareaNotFoundException;
 import madstodolist.dto.TareaData;
 import madstodolist.dto.UsuarioData;
+import madstodolist.model.Rol;
+import madstodolist.model.Usuario;
 import madstodolist.service.TareaService;
 import madstodolist.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class TareaController {
@@ -32,6 +35,21 @@ public class TareaController {
         Long idUsuarioLogeado = managerUserSession.usuarioLogeado();
         if (!idUsuario.equals(idUsuarioLogeado))
             throw new UsuarioNoLogeadoException();
+    }
+
+    @GetMapping("/usuarios/tareas")
+    public String listarUsuarios(Model model) {
+        // Verificamos que el usuario tenga rol de ADMIN
+        if (managerUserSession.obtenerRolUsuarioLogeado() != Rol.ADMIN) {
+            return "redirect:/home"; // Redirigimos si no es ADMIN
+        }
+
+        List<Usuario> usuarios = usuarioService.findAll(); // Obtener lista de Usuario
+        List<UsuarioData> usuariosData = usuarios.stream()
+                .map(usuario -> new UsuarioData(usuario)) // Mapear a UsuarioData
+                .collect(Collectors.toList());
+        model.addAttribute("usuarios", usuariosData); // Pasamos la lista mapeada a la vista
+        return "usuarios";
     }
 
     @GetMapping("/usuarios/{id}/tareas/nueva")
